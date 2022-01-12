@@ -1,0 +1,16 @@
+<idea-plugin>
+    <id>brq.intellij.plugins.commit-checklist</id>
+    <name>Commit Checklist</name>
+    <vendor url="https://github.com/btbrq">Bartosz Turek</vendor>
+
+    <description><![CDATA[
+    Commit Checklist Plugin
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <checkinHandlerFactory implementation="brq.intellij.plugins.commit.checklist.checkin.CommitChecklistFactory" id="commit-checklist"/>
+    </extensions>
+
+</idea-plugin>

@@ -1,0 +1,38 @@
+plugins {
+    id 'org.jetbrains.intellij' version '1.3.0'
+    id 'java'
+}
+
+group 'brq.intellij.plugins'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+intellij {
+    version = '2021.3'
+    updateSinceUntilBuild = false
+}
+
+patchPluginXml {
+    if (System.getenv("CHANGE_NOTES_PATH")) {
+        changeNotes = file(System.getenv("CHANGE_NOTES_PATH")).text
+    }
+}
+
+signPlugin {
+    if (System.getenv("CERTIFICATE_CHAIN_PATH") && System.getenv("PRIVATE_KEY_PATH")) {
+        certificateChain = file(System.getenv("CERTIFICATE_CHAIN_PATH")).text
+        privateKey = file(System.getenv("PRIVATE_KEY_PATH")).text
+        password = System.getenv("PRIVATE_KEY_PASSWORD")
+    }
+}
+
+publishPlugin {
+    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+}
