@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.checkin;
 
+import brq.intellij.plugins.commit.checklist.settings.Settings;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
@@ -21,9 +22,10 @@ public class CommitChecklistHandler extends CheckinHandler {
     public ReturnResult beforeCheckin() {
         if (!CommitChecklistCheckbox.SELECTED) return super.beforeCheckin();
 
-        CommitChecklistDialog dialog = new CommitChecklistDialog(panel.getProject());
+        CommitChecklistDialog dialog = new CommitChecklistDialog(Settings.getInstance().getChecklist());
         boolean isCommitExit = dialog.showAndGet();
 
         return isCommitExit ? ReturnResult.COMMIT : ReturnResult.CANCEL;
     }
+
 }
