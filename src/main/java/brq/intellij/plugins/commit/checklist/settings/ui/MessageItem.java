@@ -3,6 +3,10 @@ package brq.intellij.plugins.commit.checklist.settings.ui;
 public class MessageItem {
     private String value;
 
+    public MessageItem() {
+        value = "";
+    }
+
     public MessageItem(String value) {
         this.value = value;
     }
