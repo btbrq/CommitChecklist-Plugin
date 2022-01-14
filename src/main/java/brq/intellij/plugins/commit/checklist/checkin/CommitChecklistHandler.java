@@ -31,6 +31,7 @@ public class CommitChecklistHandler extends CheckinHandler {
         if (!checklist.isEmpty()) {
             CommitChecklistDialog dialog = new CommitChecklistDialog(checklist);
             boolean isCommitExit = dialog.showAndGet();
+            Settings.getInstance().setDimensions(dialog.getWidth(), dialog.getHeight());
             return isCommitExit ? ReturnResult.COMMIT : ReturnResult.CANCEL;
         }
         return ReturnResult.COMMIT;

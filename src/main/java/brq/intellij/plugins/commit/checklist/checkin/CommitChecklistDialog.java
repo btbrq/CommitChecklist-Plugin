@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.checkin;
 
+import brq.intellij.plugins.commit.checklist.settings.Settings;
 import brq.intellij.plugins.commit.checklist.settings.ui.SettingsScrollPane;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.ui.components.JBCheckBox;
@@ -12,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import static brq.intellij.plugins.commit.checklist.common.Constants.*;
 
 public class CommitChecklistDialog extends DialogWrapper {
     private final List<JBCheckBox> checkboxChecklist = new ArrayList<>();
@@ -55,10 +58,18 @@ public class CommitChecklistDialog extends DialogWrapper {
         return dialogPanel;
     }
 
+    public int getWidth() {
+        return dialogPanel.getWidth();
+    }
+
+    public int getHeight() {
+        return dialogPanel.getHeight();
+    }
+
     private void setDialogDimensions(Component dialog) {
-        dialog.setMinimumSize(dimension(200, 80));
-        dialog.setMaximumSize(dimension(400, desktopHeight()));
-        dialog.setPreferredSize(dimension(300, 200));
+        dialog.setMinimumSize(dimension(DIALOG_MIN_WIDTH, DIALOG_MIN_HEIGHT));
+        dialog.setMaximumSize(dimension(DIALOG_MAX_WIDTH, DIALOG_MAX_HEIGHT));
+        dialog.setPreferredSize(Settings.getInstance().getPreferredDimension());
     }
 
     private static Dimension dimension(int width, int height) {
