@@ -4,7 +4,12 @@ import brq.intellij.plugins.commit.checklist.settings.Settings;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class CommitChecklistHandler extends CheckinHandler {
     private final CheckinProjectPanel panel;
@@ -22,10 +27,18 @@ public class CommitChecklistHandler extends CheckinHandler {
     public ReturnResult beforeCheckin() {
         if (!CommitChecklistCheckbox.SELECTED) return super.beforeCheckin();
 
-        CommitChecklistDialog dialog = new CommitChecklistDialog(Settings.getInstance().getChecklist());
-        boolean isCommitExit = dialog.showAndGet();
+        List<String> checklist = getChecklist();
+        if (!checklist.isEmpty()) {
+            CommitChecklistDialog dialog = new CommitChecklistDialog(checklist);
+            boolean isCommitExit = dialog.showAndGet();
+            return isCommitExit ? ReturnResult.COMMIT : ReturnResult.CANCEL;
+        }
+        return ReturnResult.COMMIT;
+    }
 
-        return isCommitExit ? ReturnResult.COMMIT : ReturnResult.CANCEL;
+    @NotNull
+    private List<String> getChecklist() {
+        return Settings.getInstance().getChecklist().stream().filter(c -> c != null && !c.isBlank()).collect(toList());
     }
 
 }

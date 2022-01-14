@@ -3,7 +3,6 @@ package brq.intellij.plugins.commit.checklist.checkin;
 import brq.intellij.plugins.commit.checklist.settings.ui.SettingsScrollPane;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.ui.components.JBCheckBox;
-import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.awt.Component.LEFT_ALIGNMENT;
 
 public class CommitChecklistDialog extends DialogWrapper {
     private final List<JBCheckBox> checkboxChecklist = new ArrayList<>();
@@ -41,20 +38,11 @@ public class CommitChecklistDialog extends DialogWrapper {
         innerPanel.setLayout((new BoxLayout(innerPanel, BoxLayout.PAGE_AXIS)));
 
         checklist.forEach(e -> {
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-            panel.setAlignmentX(LEFT_ALIGNMENT);
-            panel.setBorder(JBUI.Borders.empty(5, 0));
-
-            JBCheckBox checkBox = new JBCheckBox("");
+            JBCheckBox checkBox = new JBCheckBox("<html>" + e + "</html>");
             checkBox.addActionListener(new ChecklistCheckboxListener());
-            panel.add(checkBox);
+            checkBox.setBorder(JBUI.Borders.empty(6, 0));
 
-            JBLabel label = new JBLabel("<html>" + e + "</html>");
-            label.setBorder(JBUI.Borders.emptyLeft(10));
-            panel.add(label);
-
-            innerPanel.add(panel);
+            innerPanel.add(checkBox);
             checkboxChecklist.add(checkBox);
         });
 
