@@ -26,4 +26,9 @@ public class CommitChecklistCheckbox implements RefreshableOnComponent {
     public void restoreState() {
         commitCheckbox.setSelected(SELECTED);
     }
+
+    @Override
+    public void refresh() {
+
+    }
 }

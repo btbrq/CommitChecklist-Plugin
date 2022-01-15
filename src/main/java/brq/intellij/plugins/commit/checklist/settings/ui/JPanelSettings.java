@@ -19,6 +19,10 @@ public class JPanelSettings extends JPanel {
         return IntStream.range(0, rowCount).mapToObj(i -> table.getModel().getRowValue(i).getValue()).collect(toList());
     }
 
+    public void reset(List<String> checklist) {
+        table.reset(checklist.stream().map(MessageItem::new).collect(toList()));
+    }
+
     public static JPanelSettings createAppSettingsPanel(List<String> checklist) {
         JPanelSettings settingsPanel = new JPanelSettings(checklist);
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.PAGE_AXIS));

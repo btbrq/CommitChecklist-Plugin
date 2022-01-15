@@ -22,10 +22,6 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public boolean isModified() {
-        return isModified(Settings.getInstance());
-    }
-
-    private boolean isModified(Settings settings) {
         return true;
     }
 
@@ -38,7 +34,7 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
     @Override
     public void reset() {
         List<String> checklist = Settings.getInstance().getChecklist();
-//        settingsPanel.update
+        settingsPanel.reset(checklist);
     }
 
     @Override

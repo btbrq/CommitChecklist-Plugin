@@ -6,6 +6,6 @@ Commit Checklist Plugin is a plugin for JetBrains IntelliJ IDEA, that can be use
 
 It comes in the middle of committing changes process and lets you proceed with the commit only if you select all the items that you have in your checklist
 
-You can define your own checklist in Settings > Version Control > Commit checklist
+You can define your own checklist in Settings > Version Control > Commit Checklist
 
 ![image info](screenshots/settings.png)

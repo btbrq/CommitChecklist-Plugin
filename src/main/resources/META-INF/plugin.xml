@@ -14,6 +14,8 @@
 
     <depends>com.intellij.modules.platform</depends>
 
+    <idea-version since-build="203"/>
+
     <extensions defaultExtensionNs="com.intellij">
         <checkinHandlerFactory
                 implementation="brq.intellij.plugins.commit.checklist.checkin.CommitChecklistFactory"
