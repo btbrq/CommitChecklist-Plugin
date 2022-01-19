@@ -9,3 +9,6 @@ It comes in the middle of committing changes process and lets you proceed with t
 You can define your own checklist in Settings > Version Control > Commit Checklist
 
 ![image info](screenshots/settings.png)
+
+### Installation
+[https://plugins.jetbrains.com/plugin/18417-commit-checklist](https://plugins.jetbrains.com/plugin/18417-commit-checklist)
