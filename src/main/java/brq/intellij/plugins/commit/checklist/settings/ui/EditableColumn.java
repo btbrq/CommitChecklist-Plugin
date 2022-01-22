@@ -32,7 +32,7 @@ public class EditableColumn extends TableModelEditor.EditableColumnInfo<MessageI
                 item.setValue(value);
                 break;
             case FILE_MASK:
-                item.setFileMask(value);
+                item.setFileMask((value != null && !value.isBlank()) ? value : "*");
         }
     }
 
