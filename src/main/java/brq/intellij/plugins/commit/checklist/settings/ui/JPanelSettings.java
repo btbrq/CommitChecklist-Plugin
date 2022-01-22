@@ -9,21 +9,23 @@ import static java.util.stream.Collectors.toList;
 public class JPanelSettings extends JPanel {
     private SettingsTable table;
 
-    private JPanelSettings(List<String> checklist) {
+    private JPanelSettings(List<MessageItem> checklist) {
         table = SettingsTable.createTable(checklist);
         add(table.createComponent());
     }
 
-    public List<String> getItems() {
+    public List<MessageItem> getItems() {
         int rowCount = table.getModel().getRowCount();
-        return IntStream.range(0, rowCount).mapToObj(i -> table.getModel().getRowValue(i).getValue()).collect(toList());
+        return IntStream.range(0, rowCount)
+                .mapToObj(i -> table.getModel().getRowValue(i))
+                .collect(toList());
     }
 
-    public void reset(List<String> checklist) {
-        table.reset(checklist.stream().map(MessageItem::new).collect(toList()));
+    public void reset(List<MessageItem> checklist) {
+        table.reset(checklist);
     }
 
-    public static JPanelSettings createAppSettingsPanel(List<String> checklist) {
+    public static JPanelSettings createAppSettingsPanel(List<MessageItem> checklist) {
         JPanelSettings settingsPanel = new JPanelSettings(checklist);
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.PAGE_AXIS));
 
