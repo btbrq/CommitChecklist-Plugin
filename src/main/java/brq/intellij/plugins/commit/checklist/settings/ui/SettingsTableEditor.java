@@ -11,6 +11,6 @@ public class SettingsTableEditor implements CollectionItemEditor<MessageItem> {
 
     @Override
     public MessageItem clone(@NotNull MessageItem item, boolean forInPlaceEditing) {
-        return new MessageItem(item.getValue());
+        return new MessageItem(item.getValue(), item.getFileMask());
     }
 }
