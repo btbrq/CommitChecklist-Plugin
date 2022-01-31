@@ -7,10 +7,11 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 
 public class JPanelSettings extends JPanel {
-    private SettingsTable table;
+    private final SettingsTable table;
 
     private JPanelSettings(List<MessageItem> checklist) {
         table = SettingsTable.createTable(checklist);
+        add(JPanelFileSettingsArea.create());
         add(table.createComponent());
     }
 
