@@ -2,8 +2,14 @@ package brq.intellij.plugins.commit.checklist.settings.ui;
 
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.fileChooser.FileChooser;
+import com.intellij.openapi.fileChooser.FileChooserFactory;
+import com.intellij.openapi.fileChooser.FileSaverDescriptor;
+import com.intellij.openapi.fileChooser.FileSaverDialog;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileWrapper;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -24,17 +30,33 @@ public class ImportExportPopup {
         JBPopupFactory.getInstance().createPopupChooserBuilder(items)
                 .setItemChosenCallback(item -> {
                     if (item.type == Item.ItemType.IMPORT) {
-                        System.out.println("import");
-                        VirtualFile virtualFile = FileChooser.chooseFile(createSingleFileDescriptor(JsonFileType.INSTANCE), null, null);
-                        if (virtualFile != null) {
-
-                        }
+                        importFile();
                     } else {
-                        System.out.println("export");
+                        exportFile();
                     }
                 })
                 .createPopup()
                 .showUnderneathOf(importExportButton);
+    }
+
+    private static void exportFile() {
+        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("Export Checklist", "File name:", "json");
+        FileSaverDialog saveFileDialog = FileChooserFactory.getInstance().createSaveFileDialog(fileSaverDescriptor, (Project) null);
+        VirtualFileWrapper fileWrapper = saveFileDialog.save("commit-checklist.json");
+        try {
+            if (fileWrapper != null) {
+                FileUtil.writeToFile(fileWrapper.getFile(), "test");
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private static void importFile() {
+        VirtualFile virtualFile = FileChooser.chooseFile(createSingleFileDescriptor(JsonFileType.INSTANCE), null, null);
+        if (virtualFile != null) {
+
+        }
     }
 
     private static class Item {
