@@ -1,5 +1,7 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.Settings;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -12,14 +14,18 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createSingleFileDescriptor;
 
 public class ImportExportPopup {
+    private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static void createPopup(JLabel importExportButton) {
+    public static void createPopup(JLabel importExportButton, SettingsTable table) {
         List<Item> items = new ArrayList<>();
         Item importItem = new Item("Import checklist from file", Item.ItemType.IMPORT);
         items.add(importItem);
@@ -30,7 +36,7 @@ public class ImportExportPopup {
         JBPopupFactory.getInstance().createPopupChooserBuilder(items)
                 .setItemChosenCallback(item -> {
                     if (item.type == Item.ItemType.IMPORT) {
-                        importFile();
+                        importFile(table);
                     } else {
                         exportFile();
                     }
@@ -45,17 +51,24 @@ public class ImportExportPopup {
         VirtualFileWrapper fileWrapper = saveFileDialog.save("commit-checklist.json");
         try {
             if (fileWrapper != null) {
-                FileUtil.writeToFile(fileWrapper.getFile(), "test");
+                List<MessageItem> checklistItems = Settings.getInstance().getChecklistItems();
+                FileUtil.writeToFile(fileWrapper.getFile(), mapper.writeValueAsString(checklistItems));
             }
         } catch (Exception e) {
-
+// TODO
         }
     }
 
-    private static void importFile() {
+    private static void importFile(SettingsTable table) {
         VirtualFile virtualFile = FileChooser.chooseFile(createSingleFileDescriptor(JsonFileType.INSTANCE), null, null);
         if (virtualFile != null) {
-
+            try {
+                String content = Files.readString(Path.of(virtualFile.getPath()));
+                List<MessageItem> items = mapper.readValue(content, mapper.getTypeFactory().constructCollectionType(List.class, MessageItem.class));
+                table.reset(items);
+            } catch (IOException e) {
+// TODO
+            }
         }
     }
 

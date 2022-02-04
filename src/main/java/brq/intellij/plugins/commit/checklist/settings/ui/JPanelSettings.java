@@ -11,7 +11,7 @@ public class JPanelSettings extends JPanel {
 
     private JPanelSettings(List<MessageItem> checklist) {
         table = SettingsTable.createTable(checklist);
-        add(JPanelFileSettingsArea.create());
+        add(JPanelFileSettingsArea.create(table));
         add(table.createComponent());
     }
 
