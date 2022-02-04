@@ -22,6 +22,8 @@ public class Settings implements PersistentStateComponent<Settings> {
     private List<MessageItem> checklistItems = new ArrayList<>();
     private int preferredWidth = DIALOG_DEFAULT_WIDTH;
     private int preferredHeight = DIALOG_DEFAULT_HEIGHT;
+    private boolean useSettingsFromFile = false;
+    private String settingsFilePath = "";
 
     public static Settings getInstance() {
         return ApplicationManager.getApplication().getService(Settings.class);
@@ -71,5 +73,21 @@ public class Settings implements PersistentStateComponent<Settings> {
 
     public Dimension getPreferredDimension() {
         return new Dimension(preferredWidth, preferredHeight);
+    }
+
+    public boolean isUseSettingsFromFile() {
+        return useSettingsFromFile;
+    }
+
+    public void setUseSettingsFromFile(boolean useSettingsFromFile) {
+        this.useSettingsFromFile = useSettingsFromFile;
+    }
+
+    public String getSettingsFilePath() {
+        return settingsFilePath;
+    }
+
+    public void setSettingsFilePath(String settingsFilePath) {
+        this.settingsFilePath = settingsFilePath;
     }
 }

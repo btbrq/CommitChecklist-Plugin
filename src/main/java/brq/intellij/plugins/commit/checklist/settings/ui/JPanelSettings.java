@@ -8,10 +8,12 @@ import static java.util.stream.Collectors.toList;
 
 public class JPanelSettings extends JPanel {
     private final SettingsTable table;
+    private final JPanelFileSettingsArea settingsFileArea;
 
     private JPanelSettings(List<MessageItem> checklist) {
         table = SettingsTable.createTable(checklist);
-        add(JPanelFileSettingsArea.create(table));
+        settingsFileArea = JPanelFileSettingsArea.create(table);
+        add(settingsFileArea);
         add(table.createComponent());
     }
 
@@ -22,8 +24,18 @@ public class JPanelSettings extends JPanel {
                 .collect(toList());
     }
 
-    public void reset(List<MessageItem> checklist) {
+    public boolean isUseSettingsFromFile() {
+        return settingsFileArea.isUseSettingsFromFile();
+    }
+
+    public String getSettingsFilePath() {
+        return settingsFileArea.getSettingsFilePath();
+    }
+
+    public void reset(List<MessageItem> checklist, boolean useSettingsFromFile, String settingsFilePath) {
         table.reset(checklist);
+        settingsFileArea.setUseSettingsFromFile(useSettingsFromFile);
+        settingsFileArea.setSettingsFilePath(settingsFilePath);
     }
 
     public static JPanelSettings createAppSettingsPanel(List<MessageItem> checklist) {

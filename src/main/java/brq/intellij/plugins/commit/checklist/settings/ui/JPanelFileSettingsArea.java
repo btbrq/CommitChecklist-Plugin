@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.Settings;
 import com.intellij.icons.AllIcons;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -18,8 +19,10 @@ import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.crea
 public class JPanelFileSettingsArea extends JPanel {
     private final JBCheckBox checkBox;
     private final TextFieldWithBrowseButton fileTextField;
+    private final SettingsTable table;
 
     public JPanelFileSettingsArea(SettingsTable table) {
+        this.table = table;
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(getMaximumSize().width, AllIcons.General.GearPlain.getIconHeight() + 10));
 
@@ -33,15 +36,34 @@ public class JPanelFileSettingsArea extends JPanel {
         JPanel fileTextPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         fileTextPanel.add(checkBox);
         fileTextPanel.add(fileTextField);
-        table.enabled(false);
-        //TODO set checkbox selected & field enabled based on settings
 
         add(fileTextPanel, BorderLayout.WEST);
 
         JLabel importExportButton = ImportExportButton.create(table);
         add(importExportButton, BorderLayout.EAST);
+
+        Settings settings = Settings.getInstance();
+        setUseSettingsFromFile(settings.isUseSettingsFromFile());
+        fileTextField.setText(settings.getSettingsFilePath());
     }
 
+    public boolean isUseSettingsFromFile() {
+        return checkBox.isSelected();
+    }
+
+    public String getSettingsFilePath() {
+        return fileTextField.getText();
+    }
+
+    public void setUseSettingsFromFile(boolean value) {
+        checkBox.setSelected(value);
+        fileTextField.setEnabled(checkBox.isSelected());
+        table.enabled(!checkBox.isSelected());
+    }
+
+    public void setSettingsFilePath(String value) {
+        fileTextField.setText(value);
+    }
 
     public static JPanelFileSettingsArea create(SettingsTable table) {
         return new JPanelFileSettingsArea(table);
@@ -51,8 +73,8 @@ public class JPanelFileSettingsArea extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-//            checkBox.setSelected(!checkBox.isSelected());
             fileTextField.setEnabled(checkBox.isSelected());
+            table.enabled(!checkBox.isSelected());
         }
     }
 

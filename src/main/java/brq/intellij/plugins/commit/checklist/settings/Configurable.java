@@ -1,10 +1,8 @@
 package brq.intellij.plugins.commit.checklist.settings;
 
 import brq.intellij.plugins.commit.checklist.settings.ui.JPanelSettings;
-import brq.intellij.plugins.commit.checklist.settings.ui.MessageItem;
 
 import javax.swing.*;
-import java.util.List;
 
 public class Configurable implements com.intellij.openapi.options.Configurable {
 
@@ -30,12 +28,18 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
     public void apply() {
         Settings settings = Settings.getInstance();
         settings.setChecklistItems(settingsPanel.getItems());
+        settings.setUseSettingsFromFile(settingsPanel.isUseSettingsFromFile());
+        settings.setSettingsFilePath(settingsPanel.getSettingsFilePath());
     }
 
     @Override
     public void reset() {
-        List<MessageItem> checklist = Settings.getInstance().getChecklistItems();
-        settingsPanel.reset(checklist);
+        Settings settings = Settings.getInstance();
+        settingsPanel.reset(
+                settings.getChecklistItems(),
+                settings.isUseSettingsFromFile(),
+                settings.getSettingsFilePath()
+        );
     }
 
     @Override
