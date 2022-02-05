@@ -54,8 +54,19 @@ public class Settings implements PersistentStateComponent<Settings> {
         }
     }
 
+    public void setChecklistItems(List<MessageItem> checklistItems) {
+        this.checklistItems = checklistItems;
+    }
+
     public void setChecklist(List<String> checklist) {
         this.checklist = checklist;
+    }
+
+    public void setDimensions(int width, int height) {
+        if (width < DIALOG_MAX_WIDTH && height < DIALOG_MAX_HEIGHT) {
+            this.preferredWidth = width;
+            this.preferredHeight = height;
+        }
     }
 
     public Dimension getPreferredDimension() {
