@@ -6,15 +6,14 @@
     <description><![CDATA[
     Commit Checklist Plugin is a plugin for JetBrains IntelliJ IDEA, that can be used as a reminder for items that need to be fulfilled before committing changes.
     <br><br>
+    It comes in the middle of committing changes process, displays an alert window with defined items and lets you proceed with the commit only if you select all the items that you have in your checklist.
+    <br><br>
+    You can define your own checklist in Settings > Version Control > Commit checklist
+    <br><br>
     <img src="https://raw.githubusercontent.com/btbrq/CommitChecklist-Plugin/master/screenshots/commit-dialog-sm.png"
         width="220"
         height="150"
     />
-    <br>
-    It comes in the middle of committing changes process, displays an alert window with defined items and lets you proceed with the commit only if you select all the items that you have in your checklist.
-    <br><br>
-    You can define your own checklist in Settings > Version Control > Commit checklist
-
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
@@ -25,12 +24,18 @@
         <checkinHandlerFactory
                 implementation="brq.intellij.plugins.commit.checklist.checkin.CommitChecklistFactory"
                 id="commit-checklist"/>
-        <applicationConfigurable parentId="project.propVCSSupport.Mappings"
+
+        <applicationService
+                serviceImplementation="brq.intellij.plugins.commit.checklist.settings.Settings"/>
+
+        <projectConfigurable parentId="project.propVCSSupport.Mappings"
                                  instance="brq.intellij.plugins.commit.checklist.settings.Configurable"
                                  id="brq.intellij.plugins.commit.checklist.settings.Configurable"
                                  displayName="Commit Checklist"/>
-        <applicationService
-                serviceImplementation="brq.intellij.plugins.commit.checklist.settings.Settings"/>
+        <projectService
+                serviceImplementation="brq.intellij.plugins.commit.checklist.settings.ProjectSettings"/>
+
+
     </extensions>
 
 </idea-plugin>

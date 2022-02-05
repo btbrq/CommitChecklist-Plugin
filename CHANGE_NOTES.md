@@ -1,4 +1,9 @@
 # Change Notes
 
+### v1.2
+- Introduce importing & exporting checklist from / to a file.
+- Introduce a mechanism of creating checklist directly from a file.
+- Move commit-checklist settings from application level to project level.
+
 ### v1.1
 - Introduce a mechanism of creating checklist items for specific modified files. Use IDEA file mask mechanism for it. Items will be displayed only if modified files are matching the file mask defined for an item.

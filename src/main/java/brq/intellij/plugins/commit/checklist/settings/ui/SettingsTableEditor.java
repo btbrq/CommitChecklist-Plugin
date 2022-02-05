@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.MessageItem;
 import com.intellij.util.ui.CollectionItemEditor;
 import org.jetbrains.annotations.NotNull;
 

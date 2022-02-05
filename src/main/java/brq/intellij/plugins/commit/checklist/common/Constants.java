@@ -7,4 +7,5 @@ public class Constants {
     public static final int DIALOG_MIN_HEIGHT = 80;
     public static final int DIALOG_MAX_WIDTH = 600;
     public static final int DIALOG_MAX_HEIGHT = 500;
+    public static final int ERROR_DIALOG_MIN_HEIGHT = 50;
 }
