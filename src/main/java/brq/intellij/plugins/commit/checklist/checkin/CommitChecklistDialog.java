@@ -69,17 +69,9 @@ public class CommitChecklistDialog extends DialogWrapper {
     }
 
     private void setDialogDimensions(Component dialog) {
-        dialog.setMinimumSize(dimension(DIALOG_MIN_WIDTH, DIALOG_MIN_HEIGHT));
-        dialog.setMaximumSize(dimension(DIALOG_MAX_WIDTH, DIALOG_MAX_HEIGHT));
+        dialog.setMinimumSize(new Dimension(DIALOG_MIN_WIDTH, DIALOG_MIN_HEIGHT));
+        dialog.setMaximumSize(new Dimension(DIALOG_MAX_WIDTH, DIALOG_MAX_HEIGHT));
         dialog.setPreferredSize(settings.getPreferredDimension());
-    }
-
-    private static Dimension dimension(int width, int height) {
-        return new Dimension(width, height);
-    }
-
-    private static int desktopHeight() {
-        return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     }
 
     private class ChecklistCheckboxListener implements ActionListener {

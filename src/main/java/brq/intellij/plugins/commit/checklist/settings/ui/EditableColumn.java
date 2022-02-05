@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.MessageItem;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.util.ui.table.TableModelEditor;
 import org.jetbrains.annotations.Nullable;

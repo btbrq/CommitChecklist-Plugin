@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.MessageItem;
 import brq.intellij.plugins.commit.checklist.settings.ProjectSettings;
 
 import javax.swing.*;

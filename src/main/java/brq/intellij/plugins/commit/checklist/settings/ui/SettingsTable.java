@@ -1,5 +1,6 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.MessageItem;
 import com.intellij.util.ui.CollectionItemEditor;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.table.TableModelEditor;

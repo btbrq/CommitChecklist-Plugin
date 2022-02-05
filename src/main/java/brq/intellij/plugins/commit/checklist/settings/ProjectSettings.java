@@ -1,6 +1,5 @@
 package brq.intellij.plugins.commit.checklist.settings;
 
-import brq.intellij.plugins.commit.checklist.settings.ui.MessageItem;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -43,10 +42,8 @@ public class ProjectSettings implements PersistentStateComponent<ProjectSettings
 
     private void migrateFromAppSettings() {
         List<MessageItem> appItems = Settings.getInstance().getChecklistItems();
-        System.out.println("migrate app settings");
 
         if (!appItems.isEmpty()) {
-            System.out.println("NOT EMPTY, ADDING");
             checklistItems.addAll(appItems);
             appItems.clear();
         }

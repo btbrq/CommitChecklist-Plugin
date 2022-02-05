@@ -1,6 +1,5 @@
 package brq.intellij.plugins.commit.checklist.settings;
 
-import brq.intellij.plugins.commit.checklist.settings.ui.MessageItem;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;

@@ -1,5 +1,7 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
+import brq.intellij.plugins.commit.checklist.settings.ImportSettingsResponse;
+import brq.intellij.plugins.commit.checklist.settings.MessageItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.fileChooser.FileChooser;
@@ -7,6 +9,7 @@ import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.fileChooser.FileSaverDialog;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -14,11 +17,10 @@ import com.intellij.openapi.vfs.VirtualFileWrapper;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static brq.intellij.plugins.commit.checklist.settings.SettingsImporter.importChecklist;
 import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createSingleFileDescriptor;
 
 public class ImportExportPopup {
@@ -53,27 +55,25 @@ public class ImportExportPopup {
                 List<MessageItem> checklistItems = table.getItems();
                 FileUtil.writeToFile(fileWrapper.getFile(), mapper.writeValueAsString(checklistItems));
             }
-        } catch (Exception e) {
-// TODO
+        } catch (IOException e) {
+            DialogWrapper dialog = new ImportErrorDialog("Error occurred while exporting checklist to file.");
+            dialog.show();
         }
     }
 
     private static void importFile(SettingsTable table) {
         VirtualFile virtualFile = FileChooser.chooseFile(createSingleFileDescriptor(JsonFileType.INSTANCE), null, null);
         if (virtualFile != null) {
-            try {
-                String content = Files.readString(Path.of(virtualFile.getPath()));
-                List<MessageItem> items = mapper.readValue(content, mapper.getTypeFactory().constructCollectionType(List.class, MessageItem.class));
-                table.reset(items);
-            } catch (IOException e) {
-// TODO
+            ImportSettingsResponse response = importChecklist(virtualFile.getPath());
+            if (!response.hasErrors()) {
+                table.reset(response.getChecklist());
             }
         }
     }
 
     private static class Item {
-        private String label;
-        private ItemType type;
+        private final String label;
+        private final ItemType type;
 
         public Item(String label, ItemType type) {
             this.label = label;
@@ -85,7 +85,7 @@ public class ImportExportPopup {
             return label;
         }
 
-        private enum ItemType { IMPORT, EXPORT }
+        private enum ItemType {IMPORT, EXPORT}
     }
 
 }

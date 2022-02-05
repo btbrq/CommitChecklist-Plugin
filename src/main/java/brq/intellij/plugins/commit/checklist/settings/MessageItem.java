@@ -1,4 +1,4 @@
-package brq.intellij.plugins.commit.checklist.settings.ui;
+package brq.intellij.plugins.commit.checklist.settings;
 
 public class MessageItem {
     private String value;
@@ -16,7 +16,11 @@ public class MessageItem {
 
     public MessageItem(String value, String fileMask) {
         this.value = value;
-        this.fileMask = fileMask;
+        if (fileMask == null || fileMask.isBlank()) {
+            this.fileMask = "*";
+        } else {
+            this.fileMask = fileMask;
+        }
     }
 
     public String getValue() {
@@ -32,6 +36,10 @@ public class MessageItem {
     }
 
     public void setFileMask(String fileMask) {
-        this.fileMask = fileMask;
+        if (fileMask == null || fileMask.isBlank()) {
+            this.fileMask = "*";
+        } else {
+            this.fileMask = fileMask;
+        }
     }
 }
