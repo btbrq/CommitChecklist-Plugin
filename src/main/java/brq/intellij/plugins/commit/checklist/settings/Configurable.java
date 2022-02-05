@@ -1,12 +1,19 @@
 package brq.intellij.plugins.commit.checklist.settings;
 
 import brq.intellij.plugins.commit.checklist.settings.ui.JPanelSettings;
+import com.intellij.openapi.project.Project;
 
 import javax.swing.*;
 
 public class Configurable implements com.intellij.openapi.options.Configurable {
-
+    private final Project project;
+    private final ProjectSettings settings;
     private JPanelSettings settingsPanel;
+
+    public Configurable(Project project) {
+        this.project = project;
+        this.settings = ProjectSettings.getInstance(project);
+    }
 
     @Override
     public JComponent getPreferredFocusedComponent() {
@@ -15,7 +22,7 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public JComponent createComponent() {
-        settingsPanel = JPanelSettings.createAppSettingsPanel(Settings.getInstance().getChecklistItems());
+        settingsPanel = JPanelSettings.createAppSettingsPanel(settings);
         return settingsPanel;
     }
 
@@ -26,7 +33,6 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public void apply() {
-        Settings settings = Settings.getInstance();
         settings.setChecklistItems(settingsPanel.getItems());
         settings.setUseSettingsFromFile(settingsPanel.isUseSettingsFromFile());
         settings.setSettingsFilePath(settingsPanel.getSettingsFilePath());
@@ -34,7 +40,6 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public void reset() {
-        Settings settings = Settings.getInstance();
         settingsPanel.reset(
                 settings.getChecklistItems(),
                 settings.isUseSettingsFromFile(),

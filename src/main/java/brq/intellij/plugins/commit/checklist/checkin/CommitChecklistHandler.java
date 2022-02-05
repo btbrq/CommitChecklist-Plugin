@@ -1,6 +1,6 @@
 package brq.intellij.plugins.commit.checklist.checkin;
 
-import brq.intellij.plugins.commit.checklist.settings.Settings;
+import brq.intellij.plugins.commit.checklist.settings.ProjectSettings;
 import brq.intellij.plugins.commit.checklist.settings.ui.MessageItem;
 import com.intellij.find.impl.FindInProjectUtil;
 import com.intellij.openapi.util.Condition;
@@ -18,9 +18,11 @@ import static java.util.stream.Collectors.toList;
 
 public class CommitChecklistHandler extends CheckinHandler {
     private final CheckinProjectPanel panel;
+    private final ProjectSettings settings;
 
     public CommitChecklistHandler(CheckinProjectPanel panel) {
         this.panel = panel;
+        this.settings = ProjectSettings.getInstance(panel.getProject());
     }
 
     @Override
@@ -33,9 +35,9 @@ public class CommitChecklistHandler extends CheckinHandler {
         if (!CommitChecklistCheckbox.SELECTED) return super.beforeCheckin();
         List<String> checklist = getChecklist(panel.getFiles());
         if (!checklist.isEmpty()) {
-            CommitChecklistDialog dialog = new CommitChecklistDialog(checklist);
+            CommitChecklistDialog dialog = new CommitChecklistDialog(settings, checklist);
             boolean isCommitExit = dialog.showAndGet();
-            Settings.getInstance().setDimensions(dialog.getWidth(), dialog.getHeight());
+            settings.setDimensions(dialog.getWidth(), dialog.getHeight());
             return isCommitExit ? ReturnResult.COMMIT : ReturnResult.CANCEL;
         }
         return ReturnResult.COMMIT;
@@ -43,7 +45,7 @@ public class CommitChecklistHandler extends CheckinHandler {
 
     @NotNull
     private List<String> getChecklist(Collection<File> files) {
-        return Settings.getInstance().getChecklistItems().stream()
+        return settings.getChecklistItems().stream()
                 .filter(c -> c.getValue() != null && !c.getValue().isBlank())
                 .filter(c -> isFileMatchingFileMask(files, c.getFileMask()))
                 .map(MessageItem::getValue)

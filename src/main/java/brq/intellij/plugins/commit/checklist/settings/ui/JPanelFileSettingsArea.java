@@ -1,6 +1,6 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
-import brq.intellij.plugins.commit.checklist.settings.Settings;
+import brq.intellij.plugins.commit.checklist.settings.ProjectSettings;
 import com.intellij.icons.AllIcons;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -21,7 +21,7 @@ public class JPanelFileSettingsArea extends JPanel {
     private final TextFieldWithBrowseButton fileTextField;
     private final SettingsTable table;
 
-    public JPanelFileSettingsArea(SettingsTable table) {
+    public JPanelFileSettingsArea(ProjectSettings settings, SettingsTable table) {
         this.table = table;
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(getMaximumSize().width, AllIcons.General.GearPlain.getIconHeight() + 10));
@@ -42,7 +42,6 @@ public class JPanelFileSettingsArea extends JPanel {
         JLabel importExportButton = ImportExportButton.create(table);
         add(importExportButton, BorderLayout.EAST);
 
-        Settings settings = Settings.getInstance();
         setUseSettingsFromFile(settings.isUseSettingsFromFile());
         fileTextField.setText(settings.getSettingsFilePath());
     }
@@ -65,8 +64,8 @@ public class JPanelFileSettingsArea extends JPanel {
         fileTextField.setText(value);
     }
 
-    public static JPanelFileSettingsArea create(SettingsTable table) {
-        return new JPanelFileSettingsArea(table);
+    public static JPanelFileSettingsArea create(ProjectSettings settings, SettingsTable table) {
+        return new JPanelFileSettingsArea(settings, table);
     }
 
     private class TextFieldEnabledCheckboxListener implements ActionListener {

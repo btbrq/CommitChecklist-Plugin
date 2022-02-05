@@ -1,6 +1,5 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
-import brq.intellij.plugins.commit.checklist.settings.Settings;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.fileChooser.FileChooser;
@@ -38,20 +37,20 @@ public class ImportExportPopup {
                     if (item.type == Item.ItemType.IMPORT) {
                         importFile(table);
                     } else {
-                        exportFile();
+                        exportFile(table);
                     }
                 })
                 .createPopup()
                 .showUnderneathOf(importExportButton);
     }
 
-    private static void exportFile() {
+    private static void exportFile(SettingsTable table) {
         FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("Export Checklist", "File name:", "json");
         FileSaverDialog saveFileDialog = FileChooserFactory.getInstance().createSaveFileDialog(fileSaverDescriptor, (Project) null);
         VirtualFileWrapper fileWrapper = saveFileDialog.save("commit-checklist.json");
         try {
             if (fileWrapper != null) {
-                List<MessageItem> checklistItems = Settings.getInstance().getChecklistItems();
+                List<MessageItem> checklistItems = table.getItems();
                 FileUtil.writeToFile(fileWrapper.getFile(), mapper.writeValueAsString(checklistItems));
             }
         } catch (Exception e) {

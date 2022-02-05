@@ -1,10 +1,10 @@
 package brq.intellij.plugins.commit.checklist.settings;
 
 import brq.intellij.plugins.commit.checklist.settings.ui.MessageItem;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,55 +13,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static brq.intellij.plugins.commit.checklist.common.Constants.*;
-import static java.util.stream.Collectors.toList;
 
-@State(name = "brq.intellij.plugins.commit.checklist.settings.Settings", storages = @Storage("commit-checklist.xml"))
-public class Settings implements PersistentStateComponent<Settings> {
-
-    private List<String> checklist = new ArrayList<>();
+@State(name = "brq.intellij.plugins.commit.checklist.settings.ProjectSettings", storages = @Storage("commit-checklist-project.xml"))
+public class ProjectSettings implements PersistentStateComponent<ProjectSettings> {
     private List<MessageItem> checklistItems = new ArrayList<>();
     private int preferredWidth = DIALOG_DEFAULT_WIDTH;
     private int preferredHeight = DIALOG_DEFAULT_HEIGHT;
     private boolean useSettingsFromFile = false;
     private String settingsFilePath = "";
 
-    public static Settings getInstance() {
-        return ApplicationManager.getApplication().getService(Settings.class);
+    public static ProjectSettings getInstance(Project project) {
+        return project.getService(ProjectSettings.class);
     }
 
     @Override
-    public Settings getState() {
+    public ProjectSettings getState() {
         return this;
     }
 
     @Override
-    public void loadState(@NotNull Settings state) {
+    public void loadState(@NotNull ProjectSettings state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public List<String> getChecklist() {
-        return checklist;
-    }
-
     public List<MessageItem> getChecklistItems() {
-        migrateFromPreviousChecklist();
+        migrateFromAppSettings();
         return checklistItems;
     }
 
-    private void migrateFromPreviousChecklist() {
-        if (!checklist.isEmpty()) {
-            List<MessageItem> objectStream = checklist.stream().map(MessageItem::new).collect(toList());
-            checklistItems.addAll(objectStream);
-            checklist.clear();
+    private void migrateFromAppSettings() {
+        List<MessageItem> appItems = AppSettings.getInstance().getChecklistItems();
+        System.out.println("migrate app settings");
+
+        if (!appItems.isEmpty()) {
+            System.out.println("NOT EMPTY, ADDING");
+            checklistItems.addAll(appItems);
+            appItems.clear();
         }
     }
 
     public void setChecklistItems(List<MessageItem> checklistItems) {
         this.checklistItems = checklistItems;
-    }
-
-    public void setChecklist(List<String> checklist) {
-        this.checklist = checklist;
     }
 
     public void setDimensions(int width, int height) {
