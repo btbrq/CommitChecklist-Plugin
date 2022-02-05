@@ -42,7 +42,7 @@ public class ProjectSettings implements PersistentStateComponent<ProjectSettings
     }
 
     private void migrateFromAppSettings() {
-        List<MessageItem> appItems = AppSettings.getInstance().getChecklistItems();
+        List<MessageItem> appItems = Settings.getInstance().getChecklistItems();
         System.out.println("migrate app settings");
 
         if (!appItems.isEmpty()) {

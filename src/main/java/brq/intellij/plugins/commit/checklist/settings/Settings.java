@@ -16,24 +16,24 @@ import static brq.intellij.plugins.commit.checklist.common.Constants.*;
 import static java.util.stream.Collectors.toList;
 
 @State(name = "brq.intellij.plugins.commit.checklist.settings.Settings", storages = @Storage("commit-checklist.xml"))
-public class AppSettings implements PersistentStateComponent<AppSettings> {
+public class Settings implements PersistentStateComponent<Settings> {
 
     private List<String> checklist = new ArrayList<>();
     private List<MessageItem> checklistItems = new ArrayList<>();
     private int preferredWidth = DIALOG_DEFAULT_WIDTH;
     private int preferredHeight = DIALOG_DEFAULT_HEIGHT;
 
-    public static AppSettings getInstance() {
-        return ApplicationManager.getApplication().getService(AppSettings.class);
+    public static Settings getInstance() {
+        return ApplicationManager.getApplication().getService(Settings.class);
     }
 
     @Override
-    public AppSettings getState() {
+    public Settings getState() {
         return this;
     }
 
     @Override
-    public void loadState(@NotNull AppSettings state) {
+    public void loadState(@NotNull Settings state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 

@@ -24,6 +24,10 @@
         <checkinHandlerFactory
                 implementation="brq.intellij.plugins.commit.checklist.checkin.CommitChecklistFactory"
                 id="commit-checklist"/>
+
+        <applicationService
+                serviceImplementation="brq.intellij.plugins.commit.checklist.settings.Settings"/>
+
         <projectConfigurable parentId="project.propVCSSupport.Mappings"
                                  instance="brq.intellij.plugins.commit.checklist.settings.Configurable"
                                  id="brq.intellij.plugins.commit.checklist.settings.Configurable"
@@ -31,8 +35,7 @@
         <projectService
                 serviceImplementation="brq.intellij.plugins.commit.checklist.settings.ProjectSettings"/>
 
-        <applicationService
-                serviceImplementation="brq.intellij.plugins.commit.checklist.settings.AppSettings"/>
+
     </extensions>
 
 </idea-plugin>
