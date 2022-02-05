@@ -52,7 +52,7 @@ public class ImportExportPopup {
         VirtualFileWrapper fileWrapper = saveFileDialog.save("commit-checklist.json");
         try {
             if (fileWrapper != null) {
-                List<MessageItem> checklistItems = table.getItems();
+                List<MessageItem> checklistItems = table.getChecklistItems();
                 FileUtil.writeToFile(fileWrapper.getFile(), mapper.writeValueAsString(checklistItems));
             }
         } catch (IOException e) {

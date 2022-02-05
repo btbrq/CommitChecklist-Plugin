@@ -17,8 +17,8 @@ public class JPanelSettings extends JPanel {
         add(table.createComponent());
     }
 
-    public List<MessageItem> getItems() {
-        return table.getItems();
+    public List<MessageItem> getChecklistItems() {
+        return table.getChecklistItems();
     }
 
     public boolean isUseSettingsFromFile() {

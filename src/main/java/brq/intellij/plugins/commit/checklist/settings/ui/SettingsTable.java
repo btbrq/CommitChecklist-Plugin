@@ -20,7 +20,7 @@ public class SettingsTable extends TableModelEditor<MessageItem> {
         super(columns, itemEditor, emptyText);
     }
 
-    public List<MessageItem> getItems() {
+    public List<MessageItem> getChecklistItems() {
         int rowCount = getModel().getRowCount();
         return IntStream.range(0, rowCount)
                 .mapToObj(i -> this.getModel().getRowValue(i))

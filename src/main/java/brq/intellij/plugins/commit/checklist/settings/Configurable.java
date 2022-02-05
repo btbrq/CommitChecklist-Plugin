@@ -33,7 +33,7 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public void apply() {
-        settings.setChecklistItems(settingsPanel.getItems());
+        settings.setChecklistItems(settingsPanel.getChecklistItems());
         settings.setUseSettingsFromFile(settingsPanel.isUseSettingsFromFile());
         settings.setSettingsFilePath(settingsPanel.getSettingsFilePath());
     }
