@@ -17,10 +17,12 @@ import static java.util.stream.Collectors.toList;
 @State(name = "brq.intellij.plugins.commit.checklist.settings.Settings", storages = @Storage("commit-checklist.xml"))
 public class Settings implements PersistentStateComponent<Settings> {
 
-    private List<String> checklist = new ArrayList<>();
     private List<MessageItem> checklistItems = new ArrayList<>();
     private int preferredWidth = DIALOG_DEFAULT_WIDTH;
     private int preferredHeight = DIALOG_DEFAULT_HEIGHT;
+    private boolean useSettingsFromFile = false;
+    private String settingsFilePath = "";
+    private boolean applyGlobal = false;
 
     public static Settings getInstance() {
         return ApplicationManager.getApplication().getService(Settings.class);
@@ -36,29 +38,12 @@ public class Settings implements PersistentStateComponent<Settings> {
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public List<String> getChecklist() {
-        return checklist;
-    }
-
     public List<MessageItem> getChecklistItems() {
-        migrateFromPreviousChecklist();
         return checklistItems;
-    }
-
-    private void migrateFromPreviousChecklist() {
-        if (!checklist.isEmpty()) {
-            List<MessageItem> objectStream = checklist.stream().map(MessageItem::new).collect(toList());
-            checklistItems.addAll(objectStream);
-            checklist.clear();
-        }
     }
 
     public void setChecklistItems(List<MessageItem> checklistItems) {
         this.checklistItems = checklistItems;
-    }
-
-    public void setChecklist(List<String> checklist) {
-        this.checklist = checklist;
     }
 
     public void setDimensions(int width, int height) {
@@ -70,5 +55,29 @@ public class Settings implements PersistentStateComponent<Settings> {
 
     public Dimension getPreferredDimension() {
         return new Dimension(preferredWidth, preferredHeight);
+    }
+
+    public boolean isUseSettingsFromFile() {
+        return useSettingsFromFile;
+    }
+
+    public void setUseSettingsFromFile(boolean useSettingsFromFile) {
+        this.useSettingsFromFile = useSettingsFromFile;
+    }
+
+    public String getSettingsFilePath() {
+        return settingsFilePath;
+    }
+
+    public void setSettingsFilePath(String settingsFilePath) {
+        this.settingsFilePath = settingsFilePath;
+    }
+
+    public boolean isApplyGlobal() {
+        return applyGlobal;
+    }
+
+    public void setApplyGlobal(boolean applyGlobal) {
+        this.applyGlobal = applyGlobal;
     }
 }

@@ -54,7 +54,9 @@ public class JPanelFileSettingsArea extends JPanel {
 
         JPanel applyGlobalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         applyGlobalCheckbox = new JBCheckBox("Apply this checklist to all projects in IDE");
-        applyGlobalCheckbox.addActionListener(new TextFieldEnabledCheckboxListener());
+//       todo applyGlobalCheckbox.addActionListener(new TextFieldEnabledCheckboxListener());
+//        onclick change UI?
+        applyGlobalCheckbox.setSelected(settings.isApplyGlobal());
         applyGlobalPanel.add(applyGlobalCheckbox);
         add(applyGlobalPanel, BorderLayout.SOUTH);
     }
@@ -75,6 +77,14 @@ public class JPanelFileSettingsArea extends JPanel {
 
     public void setSettingsFilePath(String value) {
         fileTextField.setText(value);
+    }
+
+    public boolean isApplyGlobal() {
+        return applyGlobalCheckbox.isSelected();
+    }
+
+    public void setApplyGlobal(boolean value) {
+        applyGlobalCheckbox.setSelected(value);
     }
 
     public static JPanelFileSettingsArea create(ProjectSettings settings, SettingsTable table) {

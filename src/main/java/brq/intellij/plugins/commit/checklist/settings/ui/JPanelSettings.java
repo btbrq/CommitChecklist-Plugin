@@ -25,14 +25,19 @@ public class JPanelSettings extends JPanel {
         return settingsFileArea.isUseSettingsFromFile();
     }
 
+    public boolean isApplyGlobal() {
+        return settingsFileArea.isApplyGlobal();
+    }
+
     public String getSettingsFilePath() {
         return settingsFileArea.getSettingsFilePath();
     }
 
-    public void reset(List<MessageItem> checklist, boolean useSettingsFromFile, String settingsFilePath) {
+    public void reset(List<MessageItem> checklist, boolean useSettingsFromFile, String settingsFilePath, boolean applyGlobal) {
         table.reset(checklist);
         settingsFileArea.setUseSettingsFromFile(useSettingsFromFile);
         settingsFileArea.setSettingsFilePath(settingsFilePath);
+        settingsFileArea.setApplyGlobal(applyGlobal);
     }
 
     public static JPanelSettings createAppSettingsPanel(ProjectSettings settings) {
