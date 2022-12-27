@@ -1,5 +1,8 @@
 # Change Notes
 
+### v1.2.1
+- Introduce a mechanism of applying a Global checklist - checklist used for all the projects
+
 ### v1.2
 - Introduce importing & exporting checklist from / to a file.
 - Introduce a mechanism of creating checklist directly from a file.

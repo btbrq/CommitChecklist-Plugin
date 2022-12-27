@@ -16,8 +16,8 @@ public class JPanelSettings extends JPanel {
     private final JPanelFileSettingsArea settingsFileArea;
 
     private JPanelSettings(ProjectSettings projectSettings, Settings appSettings) {
-        projectTable = SettingsTable.createTable("Project Checklist", PROJECT, projectSettings.getChecklistItems());
-        globalTable = SettingsTable.createTable("Global Checklist", GLOBAL, appSettings.getChecklistItems());
+        projectTable = SettingsTable.createTable(PROJECT, projectSettings.getChecklistItems());
+        globalTable = SettingsTable.createTable(GLOBAL, appSettings.getChecklistItems());
         tablePanel = SettingsTabbedPane.create(projectTable, globalTable);
 
         settingsFileArea = JPanelFileSettingsArea.create(projectSettings, tablePanel);

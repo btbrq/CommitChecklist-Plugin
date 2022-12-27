@@ -4,8 +4,6 @@ import com.intellij.ui.components.JBTabbedPane;
 
 import java.util.Arrays;
 
-import static brq.intellij.plugins.commit.checklist.settings.ui.SettingsTable.Type.PROJECT;
-
 public class SettingsTabbedPane extends JBTabbedPane {
     private final SettingsTable[] tables;
 
@@ -18,15 +16,18 @@ public class SettingsTabbedPane extends JBTabbedPane {
     }
 
     public void setProjectTableEnabled(boolean value) {
-        var projectTable = Arrays.stream(tables).filter(t -> t.getType() == PROJECT).findFirst();
+        var projectTable = Arrays.stream(tables).filter(SettingsTable::isProjectTable).findFirst();
         projectTable.ifPresent(e -> e.enabled(value));
     }
 
     public static SettingsTabbedPane create(SettingsTable... tables) {
         var panel = new SettingsTabbedPane(tables);
-        for (SettingsTable table : tables) {
+        for (int i = 0; i < tables.length; i++) {
+            SettingsTable table = tables[i];
             panel.addTab(table.getTitle(), table.createComponent());
+            panel.setToolTipTextAt(i, table.getTooltip());
         }
+
         return panel;
     }
 }
