@@ -6,13 +6,11 @@ import com.intellij.openapi.project.Project;
 import javax.swing.*;
 
 public class Configurable implements com.intellij.openapi.options.Configurable {
-    private final Project project;
     private final ProjectSettings projectSettings;
     private final Settings appSettings;
     private JPanelSettings settingsPanel;
 
     public Configurable(Project project) {
-        this.project = project;
         this.projectSettings = ProjectSettings.getInstance(project);
         this.appSettings = Settings.getInstance();
     }
@@ -24,7 +22,7 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public JComponent createComponent() {
-        settingsPanel = JPanelSettings.createAppSettingsPanel(projectSettings);
+        settingsPanel = JPanelSettings.createAppSettingsPanel(projectSettings, appSettings);
         return settingsPanel;
     }
 
@@ -35,22 +33,20 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public void apply() {
-        projectSettings.setChecklistItems(settingsPanel.getChecklistItems());
+        projectSettings.setChecklistItems(settingsPanel.getProjectChecklistItems());
         projectSettings.setUseSettingsFromFile(settingsPanel.isUseSettingsFromFile());
-        projectSettings.setApplyGlobal(settingsPanel.isApplyGlobal());
         projectSettings.setSettingsFilePath(settingsPanel.getSettingsFilePath());
-        //todo apply global
+        appSettings.setChecklistItems(settingsPanel.getGlobalChecklistItems());
     }
 
     @Override
     public void reset() {
         settingsPanel.reset(
                 projectSettings.getChecklistItems(),
+                appSettings.getChecklistItems(),
                 projectSettings.isUseSettingsFromFile(),
-                projectSettings.getSettingsFilePath(),
-                projectSettings.isApplyGlobal()
+                projectSettings.getSettingsFilePath()
         );
-        //todo reset global
     }
 
     @Override

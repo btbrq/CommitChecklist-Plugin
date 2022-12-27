@@ -20,7 +20,6 @@ public class ProjectSettings implements PersistentStateComponent<ProjectSettings
     private int preferredHeight = DIALOG_DEFAULT_HEIGHT;
     private boolean useSettingsFromFile = false;
     private String settingsFilePath = "";
-    private boolean applyGlobal = false;
 
     public static ProjectSettings getInstance(Project project) {
         return project.getService(ProjectSettings.class);
@@ -69,13 +68,5 @@ public class ProjectSettings implements PersistentStateComponent<ProjectSettings
 
     public void setSettingsFilePath(String settingsFilePath) {
         this.settingsFilePath = settingsFilePath;
-    }
-
-    public boolean isApplyGlobal() {
-        return applyGlobal;
-    }
-
-    public void setApplyGlobal(boolean applyGlobal) {
-        this.applyGlobal = applyGlobal;
     }
 }

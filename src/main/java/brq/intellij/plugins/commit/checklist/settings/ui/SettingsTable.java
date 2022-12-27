@@ -15,9 +15,13 @@ import static brq.intellij.plugins.commit.checklist.settings.ui.EditableColumn.C
 import static java.util.stream.Collectors.toList;
 
 public class SettingsTable extends TableModelEditor<MessageItem> {
+    private final String title;
+    private final Type type;
 
-    public SettingsTable(ColumnInfo @NotNull [] columns, @NotNull CollectionItemEditor<MessageItem> itemEditor, @NotNull @Nls(capitalization = Nls.Capitalization.Sentence) String emptyText) {
+    public SettingsTable(String title, Type type, ColumnInfo @NotNull [] columns, @NotNull CollectionItemEditor<MessageItem> itemEditor, @NotNull @Nls(capitalization = Nls.Capitalization.Sentence) String emptyText) {
         super(columns, itemEditor, emptyText);
+        this.title = title;
+        this.type = type;
     }
 
     public List<MessageItem> getChecklistItems() {
@@ -27,10 +31,18 @@ public class SettingsTable extends TableModelEditor<MessageItem> {
                 .collect(toList());
     }
 
-    public static SettingsTable createTable(List<MessageItem> checklist) {
+    public String getTitle() {
+        return title;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public static SettingsTable createTable(String title, Type type, List<MessageItem> checklist) {
         final ColumnInfo[] columns = getColumns();
         SettingsTableEditor editor = new SettingsTableEditor();
-        SettingsTable table = new SettingsTable(columns, editor, "");
+        SettingsTable table = new SettingsTable(title, type, columns, editor, "");
         checklist.forEach(i -> table.getModel().addRow(new MessageItem(i.getValue(), i.getFileMask())));
         return table;
     }
@@ -40,6 +52,10 @@ public class SettingsTable extends TableModelEditor<MessageItem> {
                 new EditableColumn("Item", VALUE),
                 new EditableColumn("File mask", FILE_MASK)
         };
+    }
+
+    public enum Type {
+        PROJECT, GLOBAL
     }
 
 }

@@ -18,12 +18,11 @@ import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.crea
 
 public class JPanelFileSettingsArea extends JPanel {
     private final JBCheckBox useFromFileCheckbox;
-    private final JBCheckBox applyGlobalCheckbox;
     private final TextFieldWithBrowseButton fileTextField;
-    private final SettingsTable table;
+    private final SettingsTabbedPane tablePanel;
 
-    public JPanelFileSettingsArea(ProjectSettings settings, SettingsTable table) {
-        this.table = table;
+    public JPanelFileSettingsArea(ProjectSettings settings, SettingsTabbedPane tablePanel) {
+        this.tablePanel = tablePanel;
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(getMaximumSize().width, AllIcons.General.GearPlain.getIconHeight() + 10));
 
@@ -44,21 +43,13 @@ public class JPanelFileSettingsArea extends JPanel {
 
         fileChooserPanel.add(fileTextPanel, BorderLayout.WEST);
 
-        JLabel importExportButton = ImportExportButton.create(table);
+        JLabel importExportButton = ImportExportButton.create(tablePanel);
         fileChooserPanel.add(importExportButton, BorderLayout.EAST);
 
         setUseSettingsFromFile(settings.isUseSettingsFromFile());
         fileTextField.setText(settings.getSettingsFilePath());
 
         add(fileChooserPanel, BorderLayout.NORTH);
-
-        JPanel applyGlobalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        applyGlobalCheckbox = new JBCheckBox("Apply this checklist to all projects in IDE");
-//       todo applyGlobalCheckbox.addActionListener(new TextFieldEnabledCheckboxListener());
-//        onclick change UI?
-        applyGlobalCheckbox.setSelected(settings.isApplyGlobal());
-        applyGlobalPanel.add(applyGlobalCheckbox);
-        add(applyGlobalPanel, BorderLayout.SOUTH);
     }
 
     public boolean isUseSettingsFromFile() {
@@ -72,23 +63,15 @@ public class JPanelFileSettingsArea extends JPanel {
     public void setUseSettingsFromFile(boolean value) {
         useFromFileCheckbox.setSelected(value);
         fileTextField.setEnabled(useFromFileCheckbox.isSelected());
-        table.enabled(!useFromFileCheckbox.isSelected());
+        tablePanel.setProjectTableEnabled(!useFromFileCheckbox.isSelected());
     }
 
     public void setSettingsFilePath(String value) {
         fileTextField.setText(value);
     }
 
-    public boolean isApplyGlobal() {
-        return applyGlobalCheckbox.isSelected();
-    }
-
-    public void setApplyGlobal(boolean value) {
-        applyGlobalCheckbox.setSelected(value);
-    }
-
-    public static JPanelFileSettingsArea create(ProjectSettings settings, SettingsTable table) {
-        return new JPanelFileSettingsArea(settings, table);
+    public static JPanelFileSettingsArea create(ProjectSettings settings, SettingsTabbedPane tablePanel) {
+        return new JPanelFileSettingsArea(settings, tablePanel);
     }
 
     private class TextFieldEnabledCheckboxListener implements ActionListener {
@@ -96,7 +79,7 @@ public class JPanelFileSettingsArea extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             fileTextField.setEnabled(useFromFileCheckbox.isSelected());
-            table.enabled(!useFromFileCheckbox.isSelected());
+            tablePanel.setProjectTableEnabled(!useFromFileCheckbox.isSelected());
         }
     }
 

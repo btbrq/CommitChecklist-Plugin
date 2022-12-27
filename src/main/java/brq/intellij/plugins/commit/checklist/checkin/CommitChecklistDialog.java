@@ -23,6 +23,7 @@ public class CommitChecklistDialog extends DialogWrapper {
     private JPanel dialogPanel;
 
     public CommitChecklistDialog(ProjectSettings settings, List<String> checklist) {
+        //todo add global checklist
         super(true);
         this.settings = settings;
         this.checklist = checklist;
