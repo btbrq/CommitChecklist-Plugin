@@ -2,23 +2,35 @@ package brq.intellij.plugins.commit.checklist.settings.ui;
 
 import brq.intellij.plugins.commit.checklist.settings.MessageItem;
 import brq.intellij.plugins.commit.checklist.settings.ProjectSettings;
+import brq.intellij.plugins.commit.checklist.settings.Settings;
 
 import javax.swing.*;
 import java.util.List;
 
+import static brq.intellij.plugins.commit.checklist.settings.ui.SettingsTable.Type.*;
+
 public class JPanelSettings extends JPanel {
-    private final SettingsTable table;
+    private final SettingsTabbedPane tablePanel;
+    private final SettingsTable projectTable;
+    private final SettingsTable globalTable;
     private final JPanelFileSettingsArea settingsFileArea;
 
-    private JPanelSettings(ProjectSettings settings) {
-        table = SettingsTable.createTable(settings.getChecklistItems());
-        settingsFileArea = JPanelFileSettingsArea.create(settings, table);
+    private JPanelSettings(ProjectSettings projectSettings, Settings appSettings) {
+        projectTable = SettingsTable.createTable(PROJECT, projectSettings.getChecklistItems());
+        globalTable = SettingsTable.createTable(GLOBAL, appSettings.getChecklistItems());
+        tablePanel = SettingsTabbedPane.create(projectTable, globalTable);
+
+        settingsFileArea = JPanelFileSettingsArea.create(projectSettings, tablePanel);
         add(settingsFileArea);
-        add(table.createComponent());
+        add(tablePanel);
     }
 
-    public List<MessageItem> getChecklistItems() {
-        return table.getChecklistItems();
+    public List<MessageItem> getProjectChecklistItems() {
+        return projectTable.getChecklistItems();
+    }
+
+    public List<MessageItem> getGlobalChecklistItems() {
+        return globalTable.getChecklistItems();
     }
 
     public boolean isUseSettingsFromFile() {
@@ -29,14 +41,15 @@ public class JPanelSettings extends JPanel {
         return settingsFileArea.getSettingsFilePath();
     }
 
-    public void reset(List<MessageItem> checklist, boolean useSettingsFromFile, String settingsFilePath) {
-        table.reset(checklist);
+    public void reset(List<MessageItem> projectChecklist, List<MessageItem> appChecklist, boolean useSettingsFromFile, String settingsFilePath) {
+        globalTable.reset(appChecklist);
+        projectTable.reset(projectChecklist);
         settingsFileArea.setUseSettingsFromFile(useSettingsFromFile);
         settingsFileArea.setSettingsFilePath(settingsFilePath);
     }
 
-    public static JPanelSettings createAppSettingsPanel(ProjectSettings settings) {
-        JPanelSettings settingsPanel = new JPanelSettings(settings);
+    public static JPanelSettings createAppSettingsPanel(ProjectSettings projectSettings, Settings appSettings) {
+        JPanelSettings settingsPanel = new JPanelSettings(projectSettings, appSettings);
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.PAGE_AXIS));
 
         return settingsPanel;

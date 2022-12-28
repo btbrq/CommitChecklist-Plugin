@@ -36,17 +36,7 @@ public class ProjectSettings implements PersistentStateComponent<ProjectSettings
     }
 
     public List<MessageItem> getChecklistItems() {
-        migrateFromAppSettings();
         return checklistItems;
-    }
-
-    private void migrateFromAppSettings() {
-        List<MessageItem> appItems = Settings.getInstance().getChecklistItems();
-
-        if (!appItems.isEmpty()) {
-            checklistItems.addAll(appItems);
-            appItems.clear();
-        }
     }
 
     public void setChecklistItems(List<MessageItem> checklistItems) {

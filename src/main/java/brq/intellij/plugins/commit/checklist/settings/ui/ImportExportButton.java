@@ -7,19 +7,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class ImportExportButton extends JLabel {
-    private final SettingsTable table;
+    private final SettingsTabbedPane tablePanel;
 
-    public ImportExportButton(Icon icon, SettingsTable table) {
+    public ImportExportButton(Icon icon, SettingsTabbedPane tablePanel) {
         super(icon);
-        this.table = table;
+        this.tablePanel = tablePanel;
     }
 
     public void displayImportExportPopup() {
-        ImportExportPopup.createPopup(this, table);
+        ImportExportPopup.createPopup(this, tablePanel.getSelectedTable());
     }
 
-    public static ImportExportButton create(SettingsTable table) {
-        ImportExportButton label = new ImportExportButton(AllIcons.General.GearPlain, table);
+    public static ImportExportButton create(SettingsTabbedPane tablePanel) {
+        ImportExportButton label = new ImportExportButton(AllIcons.General.GearPlain, tablePanel);
         label.addMouseListener(new ImportExportButtonMouseListener(label));
         return label;
     }

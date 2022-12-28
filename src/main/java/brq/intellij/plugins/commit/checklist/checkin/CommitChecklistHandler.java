@@ -3,6 +3,7 @@ package brq.intellij.plugins.commit.checklist.checkin;
 import brq.intellij.plugins.commit.checklist.settings.ImportSettingsResponse;
 import brq.intellij.plugins.commit.checklist.settings.ProjectSettings;
 import brq.intellij.plugins.commit.checklist.settings.MessageItem;
+import brq.intellij.plugins.commit.checklist.settings.Settings;
 import com.intellij.find.impl.FindInProjectUtil;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
@@ -51,6 +52,7 @@ public class CommitChecklistHandler extends CheckinHandler {
     @Nullable
     private List<String> getChecklist() {
         List<String> checklist;
+
         if (settings.isUseSettingsFromFile()) {
             ImportSettingsResponse response = importChecklist(settings.getSettingsFilePath());
             if (response.hasErrors()) {
@@ -62,7 +64,13 @@ public class CommitChecklistHandler extends CheckinHandler {
         } else {
             checklist = getUserDefinedChecklist(panel.getFiles());
         }
+
+        checklist.addAll(getGlobalChecklist());
         return checklist;
+    }
+
+    private List<String> getGlobalChecklist() {
+        return getMatchedChecklist(Settings.getInstance().getChecklistItems(), panel.getFiles());
     }
 
     @NotNull

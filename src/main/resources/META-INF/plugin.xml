@@ -4,7 +4,8 @@
     <vendor url="https://github.com/btbrq">Bartosz Turek</vendor>
 
     <description><![CDATA[
-    Commit Checklist Plugin is a plugin for JetBrains IntelliJ IDEA, that can be used as a reminder for items that need to be fulfilled before committing changes.
+    Define your own checklist of items that need to be covered before committing the changes.
+    Plugin can be used to create a list of reminders to cover when committing.
     <br><br>
     It comes in the middle of committing changes process, displays an alert window with defined items and lets you proceed with the commit only if you select all the items that you have in your checklist.
     <br><br>
@@ -18,7 +19,7 @@
 
     <depends>com.intellij.modules.platform</depends>
 
-    <idea-version since-build="203"/>
+    <idea-version since-build="213"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <checkinHandlerFactory
