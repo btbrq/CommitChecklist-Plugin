@@ -53,7 +53,7 @@ public class SettingsTable extends TableModelEditor<MessageItem> {
     public static ColumnInfo[] getColumns() {
         return new ColumnInfo[] {
                 new EditableColumn("Item", VALUE),
-                new EditableColumn("File mask", FILE_MASK)
+                new EditableColumn("File path mask", FILE_MASK)
         };
     }
 

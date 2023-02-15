@@ -89,7 +89,7 @@ public class CommitChecklistHandler extends CheckinHandler {
     private boolean isFileMatchingFileMask(Collection<File> files, String fileMask) {
         try {
             Condition<CharSequence> fileMaskCondition = FindInProjectUtil.createFileMaskCondition(fileMask);
-            return files.stream().anyMatch(f -> fileMaskCondition.value(f.getName()));
+            return files.stream().anyMatch(f -> fileMaskCondition.value(f.getPath()));
         } catch (Exception e) {
             return false;
         }
