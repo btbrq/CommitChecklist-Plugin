@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
 import static brq.intellij.plugins.commit.checklist.common.Constants.*;
 
 public class CommitChecklistDialog extends DialogWrapper {
@@ -26,7 +27,7 @@ public class CommitChecklistDialog extends DialogWrapper {
         super(true);
         this.settings = settings;
         this.checklist = checklist;
-        setTitle("Commit Checklist");
+        setTitle(message("plugin.name"));
         init();
     }
 
@@ -36,7 +37,7 @@ public class CommitChecklistDialog extends DialogWrapper {
         dialogPanel.setLayout((new BoxLayout(dialogPanel, BoxLayout.PAGE_AXIS)));
         setDialogDimensions(dialogPanel);
 
-        myOKAction.putValue(Action.NAME, "Commit");
+        myOKAction.putValue(Action.NAME, message("dialog.ok.action.name"));
         myOKAction.setEnabled(false);
 
         JPanel innerPanel = new JPanel();

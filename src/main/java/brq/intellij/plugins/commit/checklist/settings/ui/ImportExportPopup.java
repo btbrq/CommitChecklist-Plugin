@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
 import static brq.intellij.plugins.commit.checklist.settings.SettingsImporter.importChecklist;
 import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createSingleFileDescriptor;
 
@@ -28,10 +29,10 @@ public class ImportExportPopup {
 
     public static void createPopup(JLabel importExportButton, SettingsTable table) {
         List<Item> items = new ArrayList<>();
-        Item importItem = new Item("Import checklist from file", Item.ItemType.IMPORT);
+        Item importItem = new Item(message("import.checklist"), Item.ItemType.IMPORT);
         items.add(importItem);
 
-        Item exportItem = new Item("Export checklist to file", Item.ItemType.EXPORT);
+        Item exportItem = new Item(message("export.checklist"), Item.ItemType.EXPORT);
         items.add(exportItem);
 
         JBPopupFactory.getInstance().createPopupChooserBuilder(items)
@@ -47,7 +48,10 @@ public class ImportExportPopup {
     }
 
     private static void exportFile(SettingsTable table) {
-        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("Export Checklist", "File name:", "json");
+        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor(
+                message("export.checklist.window.name"),
+                "File name:",
+                "json");
         FileSaverDialog saveFileDialog = FileChooserFactory.getInstance().createSaveFileDialog(fileSaverDescriptor, (Project) null);
         VirtualFileWrapper fileWrapper = saveFileDialog.save("commit-checklist.json");
         try {
@@ -56,7 +60,7 @@ public class ImportExportPopup {
                 FileUtil.writeToFile(fileWrapper.getFile(), mapper.writeValueAsString(checklistItems));
             }
         } catch (IOException e) {
-            DialogWrapper dialog = new ImportErrorDialog("Error occurred while exporting checklist to file.");
+            DialogWrapper dialog = new ImportErrorDialog(message("export.checklist.error"));
             dialog.show();
         }
     }

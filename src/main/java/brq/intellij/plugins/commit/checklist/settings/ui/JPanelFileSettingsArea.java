@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
 import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createSingleFileDescriptor;
 
 public class JPanelFileSettingsArea extends JPanel {
@@ -35,7 +36,7 @@ public class JPanelFileSettingsArea extends JPanel {
         fileTextField.addBrowseFolderListener(new TextBrowseFolderListener(createSingleFileDescriptor(JsonFileType.INSTANCE)));
         fileTextField.setPreferredSize(new Dimension(300, AllIcons.General.GearPlain.getIconHeight() + 10));
 
-        useFromFileCheckbox = new JBCheckBox("Use checklist from file");
+        useFromFileCheckbox = new JBCheckBox(message("settings.checklist.from.file"));
         useFromFileCheckbox.addActionListener(new TextFieldEnabledCheckboxListener());
         JPanel fileTextPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         fileTextPanel.add(useFromFileCheckbox);

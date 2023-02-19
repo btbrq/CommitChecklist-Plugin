@@ -1,9 +1,10 @@
 package brq.intellij.plugins.commit.checklist.settings.ui;
 
 import brq.intellij.plugins.commit.checklist.settings.MessageItem;
-import com.intellij.openapi.util.NlsContexts;
 import com.intellij.util.ui.table.TableModelEditor;
 import org.jetbrains.annotations.Nullable;
+
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
 
 public class EditableColumn extends TableModelEditor.EditableColumnInfo<MessageItem, String> {
     private final Column column;
@@ -38,9 +39,9 @@ public class EditableColumn extends TableModelEditor.EditableColumnInfo<MessageI
     }
 
     @Override
-    public @NlsContexts.Tooltip @Nullable String getTooltipText() {
+    public @Nullable String getTooltipText() {
         if (column == Column.FILE_MASK) {
-            return "IDEA-like find file mask. Item will be displayed if committed files are matching the file mask.";
+            return message("settings.file.mask.tooltip.description");
         }
         return super.getTooltipText();
     }

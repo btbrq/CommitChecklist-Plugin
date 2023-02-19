@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
+import static java.text.MessageFormat.format;
+
 public class SettingsImporter {
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -25,15 +28,15 @@ public class SettingsImporter {
             }
         } catch (JsonProcessingException e) {
             result.setHasErrors(true);
-            DialogWrapper dialog = new ImportErrorDialog("Error parsing file: " + path + ". Check file syntax.");
+            DialogWrapper dialog = new ImportErrorDialog(format(message("import.checklist.parse.error"), path));
             dialog.show();
         } catch (FileNotFoundException e) {
             result.setHasErrors(true);
-            DialogWrapper dialog = new ImportErrorDialog("File not found: " + path + ".");
+            DialogWrapper dialog = new ImportErrorDialog(format(message("import.checklist.file.not.found.error"), path));
             dialog.show();
         } catch (IOException e) {
             result.setHasErrors(true);
-            DialogWrapper dialog = new ImportErrorDialog("Unknown exception occurred when loading checklist file: " + path + ".");
+            DialogWrapper dialog = new ImportErrorDialog(format(message("import.checklist.unknown.error"), path));
             dialog.show();
         }
         result.setChecklist(checklist);

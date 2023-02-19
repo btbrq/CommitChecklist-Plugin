@@ -5,6 +5,8 @@ import com.intellij.openapi.project.Project;
 
 import javax.swing.*;
 
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
+
 public class Configurable implements com.intellij.openapi.options.Configurable {
     private final ProjectSettings projectSettings;
     private final Settings appSettings;
@@ -56,7 +58,7 @@ public class Configurable implements com.intellij.openapi.options.Configurable {
 
     @Override
     public String getDisplayName() {
-        return "Commit Checklist";
+        return message("plugin.name");
     }
 
 }
