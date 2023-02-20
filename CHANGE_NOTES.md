@@ -1,5 +1,9 @@
 # Change Notes
 
+
+### v1.3
+- Change file mask to work also on file path level
+
 ### v1.2.1
 - Introduce a mechanism of applying a Global checklist - checklist used for all the projects
 

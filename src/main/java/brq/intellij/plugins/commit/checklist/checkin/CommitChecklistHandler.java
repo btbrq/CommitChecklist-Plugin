@@ -16,8 +16,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
+import static brq.intellij.plugins.commit.checklist.checkin.ChecklistMatcher.getMatchedChecklist;
 import static brq.intellij.plugins.commit.checklist.settings.SettingsImporter.importChecklist;
-import static java.util.stream.Collectors.toList;
 
 public class CommitChecklistHandler extends CheckinHandler {
     private final CheckinProjectPanel panel;
@@ -76,23 +76,6 @@ public class CommitChecklistHandler extends CheckinHandler {
     @NotNull
     private List<String> getUserDefinedChecklist(Collection<File> files) {
         return getMatchedChecklist(settings.getChecklistItems(), files);
-    }
-
-    private List<String> getMatchedChecklist(List<MessageItem> checklistItems, Collection<File> files) {
-        return checklistItems.stream()
-                .filter(c -> c.getValue() != null && !c.getValue().isBlank())
-                .filter(c -> isFileMatchingFileMask(files, c.getFileMask()))
-                .map(MessageItem::getValue)
-                .collect(toList());
-    }
-
-    private boolean isFileMatchingFileMask(Collection<File> files, String fileMask) {
-        try {
-            Condition<CharSequence> fileMaskCondition = FindInProjectUtil.createFileMaskCondition(fileMask);
-            return files.stream().anyMatch(f -> fileMaskCondition.value(f.getPath()));
-        } catch (Exception e) {
-            return false;
-        }
     }
 
 }

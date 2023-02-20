@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static brq.intellij.plugins.commit.checklist.common.CommitChecklistBundle.message;
 import static brq.intellij.plugins.commit.checklist.settings.ui.EditableColumn.Column.FILE_MASK;
 import static brq.intellij.plugins.commit.checklist.settings.ui.EditableColumn.Column.VALUE;
 import static brq.intellij.plugins.commit.checklist.settings.ui.SettingsTable.Type.PROJECT;
@@ -43,23 +44,23 @@ public class SettingsTable extends TableModelEditor<MessageItem> {
     }
 
     public static SettingsTable createTable(Type type, List<MessageItem> checklist) {
-        final ColumnInfo[] columns = getColumns();
+        final EditableColumn[] columns = getColumns();
         SettingsTableEditor editor = new SettingsTableEditor();
         SettingsTable table = new SettingsTable(type, columns, editor, "");
         checklist.forEach(i -> table.getModel().addRow(new MessageItem(i.getValue(), i.getFileMask())));
         return table;
     }
 
-    public static ColumnInfo[] getColumns() {
-        return new ColumnInfo[] {
-                new EditableColumn("Item", VALUE),
-                new EditableColumn("File path mask", FILE_MASK)
+    public static EditableColumn[] getColumns() {
+        return new EditableColumn[] {
+                new EditableColumn(message("settings.item.column"), VALUE),
+                new EditableColumn(message("settings.file.mask.column"), FILE_MASK)
         };
     }
 
     public enum Type {
-        PROJECT("Project Checklist", "Project specific checklist"),
-        GLOBAL("Global Checklist", "IDE level checklist. Applied for all the projects");
+        PROJECT(message("settings.project.checklist"), message("settings.project.checklist.description")),
+        GLOBAL(message("settings.global.checklist"), message("settings.global.checklist.description"));
 
         final String title;
         final String tooltip;

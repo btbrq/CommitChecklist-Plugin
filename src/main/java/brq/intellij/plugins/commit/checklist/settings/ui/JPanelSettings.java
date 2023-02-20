@@ -10,7 +10,6 @@ import java.util.List;
 import static brq.intellij.plugins.commit.checklist.settings.ui.SettingsTable.Type.*;
 
 public class JPanelSettings extends JPanel {
-    private final SettingsTabbedPane tablePanel;
     private final SettingsTable projectTable;
     private final SettingsTable globalTable;
     private final JPanelFileSettingsArea settingsFileArea;
@@ -18,7 +17,7 @@ public class JPanelSettings extends JPanel {
     private JPanelSettings(ProjectSettings projectSettings, Settings appSettings) {
         projectTable = SettingsTable.createTable(PROJECT, projectSettings.getChecklistItems());
         globalTable = SettingsTable.createTable(GLOBAL, appSettings.getChecklistItems());
-        tablePanel = SettingsTabbedPane.create(projectTable, globalTable);
+        SettingsTabbedPane tablePanel = SettingsTabbedPane.create(projectTable, globalTable);
 
         settingsFileArea = JPanelFileSettingsArea.create(projectSettings, tablePanel);
         add(settingsFileArea);
