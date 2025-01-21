@@ -1,40 +1,50 @@
 plugins {
-    id 'org.jetbrains.intellij' version '1.10.1'
+    id 'org.jetbrains.intellij.platform' version '2.2.1'
     id 'java'
     id 'groovy'
+
 }
 
+
 group 'brq.intellij.plugins'
-version '1.3'
+version '1.3.1'
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
     testImplementation("org.codehaus.groovy:groovy-all:2.5.14")
     testImplementation("org.spockframework:spock-core:1.2-groovy-2.5")
-}
-
-intellij {
-    version = '2021.3.3'
-    updateSinceUntilBuild = false
+    intellijPlatform {
+        intellijIdeaCommunity('2024.3.2')
+        bundledPlugin("com.intellij.java")
+        bundledPlugin("com.intellij.modules.json")
+        instrumentationTools()
+    }
 }
 
 patchPluginXml {
     if (System.getenv("CHANGE_NOTES_PATH")) {
-        changeNotes = file(System.getenv("CHANGE_NOTES_PATH")).text
+        changeNotes.set(file(System.getenv("CHANGE_NOTES_PATH")).text)
     }
+    untilBuild.set(null)
+    sinceBuild.set("213.1")
 }
 
 signPlugin {
     if (System.getenv("CERTIFICATE_CHAIN_PATH") && System.getenv("PRIVATE_KEY_PATH")) {
-        certificateChain = file(System.getenv("CERTIFICATE_CHAIN_PATH")).text
-        privateKey = file(System.getenv("PRIVATE_KEY_PATH")).text
-        password = System.getenv("PRIVATE_KEY_PASSWORD")
+        certificateChain.set(file(System.getenv("CERTIFICATE_CHAIN_PATH")).text)
+        privateKey.set(file(System.getenv("PRIVATE_KEY_PATH")).text)
+        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 }
 
 publishPlugin {
-    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+    token.set(System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken"))
 }
+
