@@ -1,5 +1,7 @@
 # Change Notes
 
+### v1.3.1
+- Make plugin compatible with new IDE versions
 
 ### v1.3
 - Change file mask to work also on file path level
